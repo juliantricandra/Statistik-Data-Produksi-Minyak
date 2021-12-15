@@ -77,6 +77,7 @@ mid_col.pyplot(fig)
 
 ############### upper right column ###############
 # Bagian b. 
+right_col.subheader('Jumlah produksi pada suatu tahun')
 df_b = df[df['tahun']==tahun]
 df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
 df_b_sorted.index = df_b_sorted.index + 1
@@ -95,7 +96,8 @@ right_col.pyplot(fig)
 ############### upper right column ###############
 
 ############### lower left column ###############
-# Bagian c.
+left_col.subheader('Jumlah produksi pada suatu tahun')
+
 df_c = df.groupby(by=['kode_negara'])['produksi'].sum().reset_index(name="total_produksi")
 df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
 
@@ -112,7 +114,11 @@ right_col.pyplot(fig)
 
 ############### lower middle column ###############
 mid_col.subheader("List Negara")
-mid_col.markdown(negara)
+tulis_jenis = []
+for i, jenis in enumerate(negara):
+    tulis_jenis.append(f"{str(i+1)}. {jenis}\n")
+tulis_jenis = ' '.join(map(str, tulis_jenis))
+mid_col.markdown(tulis_jenis)
 
 ############### lower middle column ###############
 
