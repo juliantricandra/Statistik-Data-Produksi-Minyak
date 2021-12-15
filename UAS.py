@@ -113,12 +113,19 @@ left_col.pyplot(fig)
 ############### lower left column ###############
 
 ############### lower middle column ###############
-mid_col.subheader("List Negara")
-tulis_jenis = []
-for i, jenis in enumerate(list_negara):
-    tulis_jenis.append(f"{str(i+1)}. {jenis}\n")
-tulis_jenis = ' '.join(map(str, tulis_jenis))
-mid_col.markdown(tulis_jenis[:n_tampil])
+# Tambahan : Rata - rata produksi per tahun
+mid_col.subheader('Rata - Rata Produksi per Tahun')
+df_e = df.groupby(by=['kode_negara'])['produksi'].mean().reset_index(name="mean")
+df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
+
+colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
+
+fig, ax = plt.subplots()
+ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
+ax.set_xticklabels(df_e_sorted['kode_negara'], rotation=90)
+ax.set_xlabel("Negara", fontsize=12)
+ax.set_ylabel("Rata - Rata Produksi", fontsize=12)
+mid_col.pyplot(fig)
 
 ############### lower middle column ###############
 
