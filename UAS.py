@@ -118,7 +118,7 @@ tulis_jenis = []
 for i, jenis in enumerate(list_negara):
     tulis_jenis.append(f"{str(i+1)}. {jenis}\n")
 tulis_jenis = ' '.join(map(str, tulis_jenis))
-mid_col.markdown(tulis_jenis[n_tampil)
+mid_col.markdown(tulis_jenis[n_tampil])
 
 ############### lower middle column ###############
 
