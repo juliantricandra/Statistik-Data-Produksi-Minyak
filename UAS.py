@@ -53,7 +53,7 @@ st.sidebar.subheader("Pengaturan konfigurasi tampilan")
 list_negara = list(df['kode_negara'].unique())
 list_tahun = df['tahun'].unique()
 negara = st.sidebar.selectbox("Pilih negara", list_negara)
-tahun = st.slider('Pilih tahun', min_value=1971, max_value=2015)
+tahun = st.sidebar.slider('Pilih tahun', min_value=1971, max_value=2015)
 n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, max_value=None, value=10)
 ############### sidebar ###############
 
@@ -131,7 +131,7 @@ mid_col.pyplot(fig)
 
 ############### lower right column ###############
 # Tambahan :
-right_col.subheader("Gambaran produksi minyak dunia tiap tahun")
+mid_col.subheader("Gambaran produksi minyak dunia tiap tahun")
 df_old = pd.read_csv(filepath)
 
 fig = px.choropleth(
@@ -142,5 +142,5 @@ fig = px.choropleth(
     hover_name='kode_negara', 
     animation_frame='tahun')
 
-right_col.plotly_chart(fig)
+mid_col.plotly_chart(fig)
 ############### lower right column ###############
