@@ -132,7 +132,8 @@ mid_col.pyplot(fig)
 ############### lower right column ###############
 # Tambahan :
 with st.container() :
-    st.header("Gambaran Produksi Minyak Dunia tiap Tahunnya")
+    left_col, mid_col, right_col = st.columns(3)
+    mid_col.subheader("Gambaran Produksi Minyak Dunia tiap Tahunnya")
     df_old = pd.read_csv(filepath)
 
     fig = px.choropleth(
@@ -143,5 +144,5 @@ with st.container() :
         hover_name='kode_negara', 
         animation_frame='tahun')
 
-    st.plotly_chart(fig)
+    mid_col.plotly_chart(fig)
 ############### lower right column ###############
