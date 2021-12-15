@@ -13,6 +13,7 @@ from matplotlib import cm
 import streamlit as st
 from PIL import Image
 import json
+import plotly.express as px
 
 ########### Requirement ###########
 
@@ -96,6 +97,7 @@ right_col.pyplot(fig)
 ############### upper right column ###############
 
 ############### lower left column ###############
+#Bagian c.
 left_col.subheader('Jumlah keseluruhan produksi')
 
 df_c = df.groupby(by=['kode_negara'])['produksi'].sum().reset_index(name="total_produksi")
@@ -122,13 +124,23 @@ colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
 
 fig, ax = plt.subplots()
 ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
-ax.set_xlabel("Negara", fontsize=12)
-ax.set_ylabel("Rata - Rata Produksi", fontsize=12)
+ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
+ax.set_ylabel("Negara", fontsize=12)
 mid_col.pyplot(fig)
-
 ############### lower middle column ###############
 
 ############### lower right column ###############
+# Tambahan :
+right_col.subheader("Gambaran produ")
+df_old = pd.read_csv(filepath)
 
+fig = px.choropleth(
+    df_old, 
+    locations='kode_negara', 
+    color='produksi', 
+    range_color = [0,523000],
+    hover_name='kode_negara', 
+    animation_frame='tahun')
 
+right_col.pyplot(fig)
 ############### lower right column ###############
