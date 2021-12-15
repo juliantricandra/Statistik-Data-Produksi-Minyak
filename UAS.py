@@ -121,8 +121,7 @@ df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=Tru
 colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
 
 fig, ax = plt.subplots()
-ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
-ax.set_xticklabels(df_e_sorted['kode_negara'], rotation=90)
+ax.barh(df_e_sorted['mean'],df_e_sorted['kode_negara'] , color=colors)
 ax.set_xlabel("Negara", fontsize=12)
 ax.set_ylabel("Rata - Rata Produksi", fontsize=12)
 mid_col.pyplot(fig)
