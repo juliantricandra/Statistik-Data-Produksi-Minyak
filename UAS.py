@@ -96,7 +96,7 @@ right_col.pyplot(fig)
 ############### upper right column ###############
 
 ############### lower left column ###############
-left_col.subheader('Jumlah produksi pada suatu tahun')
+left_col.subheader('Jumlah keseluruhan produksi')
 
 df_c = df.groupby(by=['kode_negara'])['produksi'].sum().reset_index(name="total_produksi")
 df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
@@ -109,16 +109,12 @@ ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
 ax.set_xlabel("Negara", fontsize=12)
 ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
 
-right_col.pyplot(fig)
+left_col.pyplot(fig)
 ############### lower left column ###############
 
 ############### lower middle column ###############
 mid_col.subheader("List Negara")
-tulis_jenis = []
-for i, jenis in enumerate(negara):
-    tulis_jenis.append(f"{str(i+1)}. {jenis}\n")
-tulis_jenis = ' '.join(map(str, tulis_jenis))
-mid_col.markdown(tulis_jenis)
+mid_col.dataframe(negara(n_tampil))
 
 ############### lower middle column ###############
 
