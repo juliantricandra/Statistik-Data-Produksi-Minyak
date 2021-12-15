@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 import streamlit as st
 from PIL import Image
+import json
+
 ########### Requirement ###########
 
 ############### Dataset #############
@@ -64,9 +66,12 @@ left_col.dataframe(df.head(n_tampil))
 # Bagian a.
 mid_col.subheader("Grafik jumlah produksi minyak mentah terhadap waktu (tahun) dari suatu negara")
 datanegara = df[df['kode_negara']==negara]
-plt.plot(datanegara['tahun'], datanegara['produksi'], 'go--', linewidth=2, markersize=12)
-plt.show()
+fig, ax = plt.subplots()
+ax.plot(datanegara['tahun'], datanegara['produksi'], 'go--', linewidth=2, markersize=12)
+ax.set_xlabel("Tahun", fontsize=12)
+ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
 
+mid_col.pyplot(fig)
 ############### upper middle column ###############
 
 ############### upper right column ###############
