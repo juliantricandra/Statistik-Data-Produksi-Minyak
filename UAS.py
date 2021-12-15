@@ -49,7 +49,7 @@ left_col, mid_col, right_col = st.columns(3)
 
 ## User inputs on the control panel
 st.sidebar.subheader("Pengaturan konfigurasi tampilan")
-list_negara = df['kode_negara'].unique()
+list_negara = list(df['kode_negara'].unique())
 list_tahun = df['tahun'].unique()
 negara = st.sidebar.selectbox("Pilih negara", list_negara)
 tahun = st.sidebar.selectbox("Pilih tahun", list_tahun)
@@ -90,7 +90,7 @@ fig, ax = plt.subplots()
 ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
 ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
 ax.set_xlabel("Negara", fontsize=12)
-ax.set_ylabel("Jumlah produksi pada tahun %inputjumlahnegara", fontsize=12)
+ax.set_ylabel("Jumlah produksi pada tahun {tahun}", fontsize=12)
 
 right_col.pyplot(fig)
 ############### upper right column ###############
@@ -114,7 +114,11 @@ left_col.pyplot(fig)
 
 ############### lower middle column ###############
 mid_col.subheader("List Negara")
-mid_col.dataframe(negara(n_tampil))
+tulis_jenis = []
+for i, jenis in enumerate(list_negara):
+    tulis_jenis.append(f"{str(i+1)}. {jenis}\n")
+tulis_jenis = ' '.join(map(str, tulis_jenis))
+mid_col.markdown(tulis_jenis)
 
 ############### lower middle column ###############
 
