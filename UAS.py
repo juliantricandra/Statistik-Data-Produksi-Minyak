@@ -143,5 +143,5 @@ with st.container() :
         hover_name='kode_negara', 
         animation_frame='tahun')
 
-    plotly_chart(fig)
+    st.plotly_chart(fig)
 ############### lower right column ###############
