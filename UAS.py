@@ -115,7 +115,7 @@ with st.container() :
         animation_frame='tahun')
     fig.show()
     with st.expander("Gambaran jumlah produksi minyak dunia per tahun",expanded=False) :
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
 
     datanegara = df[df['kode_negara']==negara]
     df_linechart = pd.DataFrame({'tahun' :[x for x in datanegara['tahun']],'produksi' : [x for x in datanegara['produksi']]})
