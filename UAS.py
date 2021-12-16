@@ -113,7 +113,7 @@ mid_col.pyplot(fig)
 # Bagian b. 
 right_col.subheader('Jumlah produksi pada suatu tahun')
 df_b = df[df['tahun']==tahun]
-df_b_sorted = df_b.sort_values(by=['kode_negara'], ascending=False).reset_index(drop=True)[:n_tampil]
+df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
 df_b_sorted.index = df_b_sorted.index + 1
 
 cmap_name = 'tab20c'
@@ -124,7 +124,7 @@ fig, ax = plt.subplots()
 ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
 ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
 ax.set_xlabel("Negara", fontsize=12)
-ax.set_ylabel("Jumlah produksi pada tahun {tahun}", fontsize=12)
+ax.set_ylabel("Jumlah produksi", fontsize=12)
 
 right_col.pyplot(fig)
 ############### upper right column ###############
@@ -181,15 +181,15 @@ with st.container() :
     '  \n Nama lengkap negara :', df_d_max['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_max['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_max['region'].iloc[0],
-    '  \n Sub-region :',df_d_max['sub_region'].iloc[0],'  \nJumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].iloc[0],
+    '  \n Sub-region :',df_d_max['sub_region'].iloc[0],'  \n  Jumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_maxall['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_maxall['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_maxall['region'].iloc[0],
-    '  \n Sub-region :',df_d_maxall['sub_region'].iloc[0],'  \n Jumlah produksi terkecil pada tahun',  tahun ,':', df_d_min['produksi'].iloc[0],
+    '  \n Sub-region :',df_d_maxall['sub_region'].iloc[0],'  \n  Jumlah produksi terkecil pada tahun',  tahun ,':', df_d_min['produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_min['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_min['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_min['region'].iloc[0],
-    '  \n Sub-region :',df_d_min['sub_region'].iloc[0],'  \nJumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].iloc[0],
+    '  \n Sub-region :',df_d_min['sub_region'].iloc[0],'  \n  Jumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_minall['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_minall['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_minall['region'].iloc[0],
