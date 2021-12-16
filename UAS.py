@@ -175,24 +175,13 @@ df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_prod
 df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0])
 df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
 
-# Jumlah keseluruhan terbesar
-maxall_df_d = df_d_maxall['total_produksi'].iloc[0]
-maxall_df_d_c = df_d_maxall['kode_negara'].iloc[0]
-maxall_df_d_a = df_d_maxall['alpha3_negara'].iloc[0]
-maxall_df_d_r = df_d_maxall['region'].iloc[0]
-maxall_df_d_sr = df_d_maxall['sub_region'].iloc[0]
-
 with st.container() :
     st.markdown("Summary")
     st.write('Jumlah produksi terbesar pada tahun', tahun,':', df_d_max['produksi'].iloc[0],
     '\nNama lengkap negara :', df_d_max['kode_negara'].iloc[0],
     '\nKode negara :', df_d_max['alpha3_negara'].iloc[0],
     '\nRegion :', df_d_max['region'].iloc[0],
-    '\nSub-region :',df_d_max['sub_region'].iloc[0],'\nJumlah produksi pada keseluruhan tahun terbesar :', maxall_df_d,
-    '\nNama lengkap negara :', maxall_df_d_c,
-    '\nKode negara :', maxall_df_d_a,
-    '\nRegion :', maxall_df_d_r,
-    '\nSub-region :',maxall_df_d_sr,'\nJumlah produksi terkecil pada tahun',  tahun ,':', df_d_min['produksi'].iloc[0],
+    '\nSub-region :',df_d_max['sub_region'].iloc[0],
     '\nNama lengkap negara :', df_d_min['kode_negara'].iloc[0],
     '\nKode negara :', df_d_min['alpha3_negara'].iloc[0],
     '\nRegion :', df_d_min['region'].iloc[0],
