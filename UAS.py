@@ -6,11 +6,8 @@
 Aplikasi Streamlit untuk menggambarkan statistik data produksi minyak tiap negara
 """
 ########### Requirement ###########
-from math import exp
-import numpy as np
+
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib import cm
 import streamlit as st
 from PIL import Image
 import json
@@ -40,6 +37,7 @@ subregion = {item['name'] : item['sub-region'] for item in data}
 region = {item['name'] : item['region'] for item in data}
 alphanegara = {item['name'] : item['alpha-3'] for item in data}
 
+# variabel list untuk menyimpan subregion,region,dan kode negara(alpha-3)
 listsubregion = []
 listregion = []
 listalphanegara = []
@@ -65,6 +63,7 @@ for country in df['kode_negara'] :
         else :
             continue
 
+# memasukkan region,sub-region,dan kode negara ke dataframe
 df['region'] = listregion
 df['sub_region'] = listsubregion
 df['alpha3_negara'] = listalphanegara
@@ -92,12 +91,14 @@ n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, 
 
 ############ tampilan data ############
 
+# data produksi minyak mentah original
 df_old = pd.read_csv(filepath)
 st.subheader("Tabel representasi data")
 st.dataframe(df_old.head(n_tampil))
 
 ############ tampilan data ############
 
+############ container data visualization ############
 # Bagian a.
 with st.container() :
     st.subheader("**_Data Visualization_**")
@@ -133,7 +134,7 @@ with st.container() :
     df_barchart = alt.Chart(df_b_sorted).mark_bar().encode(tooltip=['produksi','tahun','region','sub_region','alpha3_negara'],
     x=alt.X('produksi', axis=alt.Axis(title='Jumlah Produksi')),
     y=alt.Y('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='produksi', order='descending',op='sum')))
-    with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
+    with st.expander('Grafik jumlah produksi minyak {}-besar negara pada tahun {}'.format(n_tampil,tahun),expanded=False) :
         st.altair_chart(df_barchart,use_container_width=True)
         st.dataframe(df_b_sorted)
 
@@ -143,7 +144,7 @@ with st.container() :
     df_barvchart = alt.Chart(df_c_sorted).mark_bar().encode(tooltip=['total_produksi','region','sub_region','alpha3_negara'],
     x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='total_produksi', order='descending',op='sum')),
     y=alt.Y('total_produksi', axis=alt.Axis(title='Total Produksi')))
-    with st.expander("Grafik jumlah keseluruhan produksi minyak {}-besar (c)".format(n_tampil),expanded=False) :
+    with st.expander("Grafik jumlah produksi minyak {}-besar negara pada keseluruhan tahun".format(n_tampil),expanded=False) :
         st.altair_chart(df_barvchart,use_container_width=True)
         st.dataframe(df_c_sorted)
     
@@ -158,18 +159,21 @@ with st.container() :
         st.altair_chart(df_areachart,use_container_width=True)
         st.dataframe(df_e_sorted)
 
+############ container data visualization ############
+
+
 # Bagian d.
 df_d = df[df['tahun']==tahun]
 df_d_nozero = df_d.drop(df_d.index[df_d['produksi'] == 0])
 df_c_nozero = df_c.drop(df_c.index[df_c['total_produksi'] == 0])
 
 # Dataframe - dataframe yang dibutuhkan
-df_d_maxall = df_c_sorted[:1]
-df_d_max = df_d[df_d['produksi']==df_d['produksi'].max()]
-df_d_min = df_d_nozero[df_d_nozero['produksi']==df_d_nozero['produksi'].min()]
-df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_produksi'].min()]
-df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0]).reset_index(drop=True)
-df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
+df_d_maxall = df_c_sorted[:1]  # jumlah produksi keseluruhan tahun terbesar
+df_d_max = df_d[df_d['produksi']==df_d['produksi'].max()] # produksi terbesar pada tahun T
+df_d_min = df_d_nozero[df_d_nozero['produksi']==df_d_nozero['produksi'].min()] # produksi terkecil pada tahun T
+df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_produksi'].min()] # produksi terkecil pada keseluruhan tahun tidak termasuk nol
+df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0]).reset_index(drop=True) # produksi nol pada keseluruhan tahun
+df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True) # produksi nol pada tahun T
 
 # Rename column
 df_d_minzeroall_new = df_d_minzeroall.rename(columns={"kode_negara" : "nama_negara"})
@@ -177,6 +181,7 @@ df_d_minzeroall_new.index = df_d_minzeroall_new.index + 1
 df_d_min_zero_new =  df_d_min_zero.rename(columns={"kode_negara" : "nama_negara"})
 df_d_min_zero_new.index = df_d_min_zero_new.index + 1
 
+############ container summary ############
 with st.container() :
     st.subheader("**_Summary_** (d)")
     st.markdown("**Summary Jumlah Produksi pada Tahun** {}".format(tahun))
@@ -204,3 +209,4 @@ with st.container() :
     '  \n Sub-region :',df_d_minall['sub_region'].iloc[0])
     with st.expander("Data jumlah produksi sama dengan nol pada keseluruhan tahun", expanded=False) :
         st.dataframe(df_d_minzeroall_new)
+############ container summary ############
