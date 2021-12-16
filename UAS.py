@@ -88,17 +88,14 @@ list_tahun = df['tahun'].unique()
 negara = st.sidebar.selectbox("Pilih negara", list_negara)
 tahun = st.sidebar.slider('Pilih tahun', min_value=1971, max_value=2015)
 n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, max_value=None, value=10)
-############### sidebar ###############
+############### sidebar ############### 
 
-############### upper left column ###############
-
+############ tamppilan data ############
 df_old = pd.read_csv(filepath)
-st.subheader("Tabel Representasi Data")
+st.subheader("Tabel representasi data")
 st.dataframe(df_old.head(n_tampil))
+############ tamppilan data ############
 
-############### upper left column ###############
-
-############### upper middle column ###############
 # Bagian a.
 with st.container() :
     st.subheader("**_Data Visualization_**")
@@ -115,7 +112,7 @@ with st.container() :
         hover_name='nama_negara',
         animation_frame='tahun')
     fig.show()
-    with st.expander("Gambaran Jumlah Produksi Minyak Dunia Per Tahun",expanded=False) :
+    with st.expander("Gambaran jumlah produksi minyak dunia per tahun",expanded=False) :
         st.plotly_chart(fig)
 
     datanegara = df[df['kode_negara']==negara]
@@ -220,7 +217,3 @@ with st.container() :
     '  \n Sub-region :',df_d_minall['sub_region'].iloc[0])
     with st.expander("Data jumlah produksi sama dengan nol pada keseluruhan tahun", expanded=False) :
         st.dataframe(df_d_minzeroall_new)
-
-############### container ###############
-
-############### container ###############
