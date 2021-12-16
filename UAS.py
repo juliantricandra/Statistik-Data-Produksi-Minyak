@@ -32,7 +32,42 @@ df.loc[:, 'kode_negara'] = df['kode_negara'].map(konversi)
 
 # Mengexclude data NaN
 df.dropna(subset=["kode_negara"], inplace=True)
+# Mengexclude data NaN
+df.dropna(subset=["kode_negara"], inplace=True)
 
+# sub region, region data, dan kode alpha-3 data
+subregion = {item['name'] : item['sub-region'] for item in data}
+region = {item['name'] : item['region'] for item in data}
+namanegara = {item['name'] : item['alpha-3'] for item in data}
+
+listsubregion = []
+listregion = []
+listalphanegara = []
+
+for country in df['kode_negara'] :
+    for k,v in subregion.items():
+        if country == k :
+            listsubregion.append(v)
+        else :
+            continue
+
+for country in df['kode_negara'] :
+    for k,v in region.items():
+        if country == k :
+            listregion.append(v)
+        else :
+            continue
+
+for country in df['kode_negara'] :
+    for k,v in namanegara.items():
+        if country == k :
+            listalphanegara.append(v)
+        else :
+            continue
+
+df['region'] = listregion
+df['sub_region'] = listsubregion
+df['alpha3_negara'] = listalphanegara
 ############### Dataset #############
 
 ############### title ###############
