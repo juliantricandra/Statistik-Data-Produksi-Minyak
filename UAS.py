@@ -32,8 +32,6 @@ df.loc[:, 'kode_negara'] = df['kode_negara'].map(konversi)
 
 # Mengexclude data NaN
 df.dropna(subset=["kode_negara"], inplace=True)
-# Mengexclude data NaN
-df.dropna(subset=["kode_negara"], inplace=True)
 
 # sub region, region data, dan kode alpha-3 data
 subregion = {item['name'] : item['sub-region'] for item in data}
@@ -178,7 +176,7 @@ with st.container() :
     df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0])
     df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
 
-    st.markdown('Jumlah produksi terbesar pada tahun',  tahun,':', df_d_max['produksi'].item(),
+    st.write('Jumlah produksi terbesar pada tahun',  tahun,':', df_d_max['produksi'].item(),
     '\nNama lengkap negara :', df_d_max['kode_negara'].item(),
     '\nKode negara :', df_d_max['alpha3_negara'].item(),
     '\nRegion :', df_d_max['region'].item(),
