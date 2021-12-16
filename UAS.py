@@ -37,7 +37,7 @@ df.dropna(subset=["kode_negara"], inplace=True)
 # sub region, region data, dan kode alpha-3 data
 subregion = {item['name'] : item['sub-region'] for item in data}
 region = {item['name'] : item['region'] for item in data}
-namanegara = {item['name'] : item['alpha-3'] for item in data}
+alphanegara = {item['name'] : item['alpha-3'] for item in data}
 
 listsubregion = []
 listregion = []
@@ -58,7 +58,7 @@ for country in df['kode_negara'] :
             continue
 
 for country in df['kode_negara'] :
-    for k,v in namanegara.items():
+    for k,v in alphanegara.items():
         if country == k :
             listalphanegara.append(v)
         else :
@@ -90,11 +90,11 @@ tahun = st.sidebar.slider('Pilih tahun', min_value=1971, max_value=2015)
 n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, max_value=None, value=10)
 ############### sidebar ############### 
 
-############ tamppilan data ############
+############ tampilan data ############
 df_old = pd.read_csv(filepath)
 st.subheader("Tabel representasi data")
-st.dataframe(df_old.head(n_tampil))
-############ tamppilan data ############
+st.dataframe(df_old)
+############ tampilan data ############
 
 # Bagian a.
 with st.container() :
@@ -167,7 +167,7 @@ with st.container() :
     ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
     ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
     ax.set_ylabel("Negara", fontsize=12)
-    with st.expander("Grafik rata - rata produksi minyak negara setiap tahun {}-besar".format(n_tampil),expanded=False) :
+    with st.expander("Grafik rata - rata produksi minyak {}-besar negara per tahun ".format(n_tampil),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_e_sorted)
 
