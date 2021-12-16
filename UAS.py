@@ -117,14 +117,14 @@ with st.container() :
         st.plotly_chart(fig)
 
     datanegara = df[df['kode_negara']==negara]
-    df_linechart = pd.DataFrame({datanegara['tahun'],datanegara['produksi']})
+    df_linechart = pd.DataFrame({'tahun' :[x for x in datanegara['tahun']],'produksi' : [x for x in datanegara['produksi']]})
     #fig, ax = plt.subplots()
     #ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
     #ax.set_xlabel("Tahun", fontsize=12)
     #ax.set_ylabel("Jumlah produksi minyak", fontsize=12)
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
         #st.pyplot(fig)
-        st.line_chart(datanegara.rename(columns={'tahun':'index'}).set_index('index'))
+        st.line_chart(df_linechart.rename(columns={'tahun':'index'}).set_index('index'))
         st.dataframe(datanegara)
     
     # Bagian b. 
