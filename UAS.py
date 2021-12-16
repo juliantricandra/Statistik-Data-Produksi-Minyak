@@ -99,14 +99,32 @@ left_col.dataframe(df.head(n_tampil))
 
 ############### upper middle column ###############
 # Bagian a.
-mid_col.subheader("Jumlah Produksi Minyak Tiap Tahun")
-datanegara = df[df['kode_negara']==negara]
-fig, ax = plt.subplots()
-ax.plot(datanegara['tahun'], datanegara['produksi'], 'go--', linewidth=2, markersize=12)
-ax.set_xlabel("Tahun", fontsize=12)
-ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
+with st.container() :
+    st.subheader("**_Jumlah Produksi Minyak Setiap Negara per Tahun_**")
+    st.markdown("Gambaran Jumlah Produksi Minyak Dunia Per Tahun")
+    df_old = pd.read_csv(filepath)
+    df_new = pd.read_csv(filepath)
+    df_new.loc[:, 'kode_negara'] = df_new['kode_negara'].map(konversi)
+    df_new = df.rename(columns={'kode_negara': 'nama_negara'})
+    df_old = df_old.join(df_new['nama_negara'])
 
-mid_col.pyplot(fig)
+    fig = px.choropleth(
+        df_old, 
+        locations='kode_negara', 
+        color='produksi', 
+        range_color = [0,523000],
+        hover_name='nama_negara',
+        animation_frame='tahun')
+    fig.show()
+    st.plotly_chart(fig)
+
+    st.markdown('Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun))
+    datanegara = df[df['kode_negara']==negara]
+    fig, ax = plt.subplots()
+    ax.plot(datanegara['tahun'], datanegara['produksi'], 'go--', linewidth=2, markersize=12)
+    ax.set_xlabel("Tahun", fontsize=12)
+    ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
+    st.pyplot(fig)
 ############### upper middle column ###############
 
 ############### upper right column ###############
@@ -178,7 +196,9 @@ df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=
 
 # Rename column
 df_d_minzeroall_new = df_d_minzeroall.rename(columns={"kode_negara" : "nama_negara"})
+df_d_minzeroall_new.index = df_d_minzeroall_new.index + 1
 df_d_min_zero_new =  df_d_min_zero.rename(columns={"kode_negara" : "nama_negara"})
+df_d_min_zero_new.index = df_d_min_zero_new.index + 1
 
 with st.container() :
     st.subheader("**_Summary_**")
@@ -212,22 +232,5 @@ with st.container() :
 
 
 ############### container ###############
-# Tambahan :
-with st.container() :
-    df_old = pd.read_csv(filepath)
-    df_new = pd.read_csv(filepath)
-    df_new.loc[:, 'kode_negara'] = df_new['kode_negara'].map(konversi)
-    df_new = df.rename(columns={'kode_negara': 'nama_negara'})
-    df_old = df_old.join(df_new['nama_negara'])
 
-    fig = px.choropleth(
-        df_old, 
-        locations='kode_negara', 
-        color='produksi', 
-        range_color = [0,523000],
-        hover_name='nama_negara',
-        animation_frame='tahun')
-    fig.show()
-
-    st.plotly_chart(fig)
 ############### container ###############
