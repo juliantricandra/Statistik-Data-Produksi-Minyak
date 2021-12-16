@@ -119,9 +119,9 @@ with st.container() :
 
     datanegara = df[df['kode_negara']==negara]
     df_linechart = pd.DataFrame({'tahun' :[x for x in datanegara['tahun']],'produksi' : [x for x in datanegara['produksi']]})
-    chart = alt.Chart(df_linechart).mark_line(interpolate='basis').encode(x='tahun',y='produksi')
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        st.line_chart(chart)
+        st.line_chart(df_linechart.rename(columns={'tahun':'index'}).set_index('index'))
+        st.write("Keterangan =  \nx : tahun  \ny=produksi ")
         st.dataframe(datanegara)
     
     # Bagian b. 
