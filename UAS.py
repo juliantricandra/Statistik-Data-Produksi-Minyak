@@ -151,16 +151,11 @@ with st.container() :
     df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
     df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
 
-    cmap_name = 'tab20'
-    cmap = cm.get_cmap(cmap_name)
-    colors = cmap.colors[:len(df_e_sorted)]
-
-    fig, ax = plt.subplots()
-    ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
-    ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
-    ax.set_ylabel("Negara", fontsize=12)
+    df_areachart = alt.Chart(df_e_sorted).mark_bar().encode(tooltip=['mean','region','sub_region','alpha3_negara'],
+    x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='mean', order='descending',op='sum')),
+    y=alt.Y('mean', axis=alt.Axis(title='Rata - Rata Produksi')))
     with st.expander("Grafik rata - rata produksi minyak {}-besar negara per tahun ".format(n_tampil),expanded=False) :
-        st.pyplot(fig)
+        st.altair_chart(df_areachart)
         st.dataframe(df_e_sorted)
 
 # Bagian d.
