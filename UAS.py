@@ -188,17 +188,21 @@ with st.container() :
     '  \n Kode negara :', df_d_min['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_min['region'].iloc[0],
     '  \n Sub-region :',df_d_min['sub_region'].iloc[0])
+    st.write("Data jumlah produksi sama dengan nol pada tahun", tahun)
+    with st.expander("Data jumlah produksi sama dengan nol pada tahun {}".format(tahun), expanded=False) :
+        st.dataframe(df_d_min_zero)
     st.markdown('  \n **Summary Jumlah Produksi pada Keseluruhan Tahun**')
     st.write('Jumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_maxall['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_maxall['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_maxall['region'].iloc[0],
-    '  \n Sub-region :',df_d_maxall['sub_region'].iloc[0],'  \n  Jumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].iloc[0],
+    '  \n Sub-region :',df_d_maxall['sub_region'].iloc[0],'  \n  \n Jumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_minall['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_minall['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_minall['region'].iloc[0],
     '  \n Sub-region :',df_d_minall['sub_region'].iloc[0])
-    st.write("Data jumlah produksi sama dengan nol pada tahun", tahun, df_d_min_zero,'  \nData jumlah produksi sama dengan nol pada keseluruhan tahun',df_d_minzeroall)
+    with st.expander("Data jumlah produksi sama dengan nol pada keseluruhan tahun", expanded=False) :
+        st.dataframe(df_d_minzeroall)
 ############### lower right column ###############
 
 
