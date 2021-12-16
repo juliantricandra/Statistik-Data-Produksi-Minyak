@@ -76,7 +76,7 @@ st.markdown("*Sumber data berasal dari [Jakarta Open Data](https://data.jakarta.
 ############### title ###############)
 
 ############### sidebar ###############
-image = Image.open('oildrop.jpg')
+image = Image.open('perminyakan.png')
 st.sidebar.image(image)
 
 st.sidebar.title("Pengaturan")
