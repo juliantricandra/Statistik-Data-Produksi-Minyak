@@ -128,11 +128,84 @@ ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
 ax.set_ylabel("Negara", fontsize=12)
 mid_col.pyplot(fig)
 ############### lower middle column ###############
+# Bagian d.
+df_d = df[df['tahun']==1971]
+df_d_nozero = df_d.drop(df_d.index[df_d['produksi'] == 0])
+df_c_nozero = df_c.drop(df_c.index[df_c['total_produksi'] == 0])
 
+df_d_maxall = df_c_sorted[:1]
+df_d_max = df_d[df_d['produksi']==df_d['produksi'].max()]
+df_d_min = df_d_nozero[df_d_nozero['produksi']==df_d_nozero['produksi'].min()]
+df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_produksi'].min()]
+df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0])
+df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
+
+print('Jumlah produksi terbesar pada tahun',  tahun,':', df_d_max['produksi'].item(),
+'\nNama lengkap negara :', df_d_max['kode_negara'].item(),
+'\nKode negara :', df_d_max['alpha3_negara'].item(),
+'\nRegion :', df_d_max['region'].item(),
+'\nSub-region :',df_d_max['sub_region'].item(),'\n')
+
+print('Jumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].item(),
+'\nNama lengkap negara :', df_d_maxall['kode_negara'].item(),
+'\nKode negara :', df_d_maxall['alpha3_negara'].item(),
+'\nRegion :', df_d_maxall['region'].item(),
+'\nSub-region :',df_d_maxall['sub_region'].item(),'\n')
+
+print('Jumlah produksi terkecil pada tahun',  tahun ,':', df_d_min['produksi'].item(),
+'\nNama lengkap negara :', df_d_min['kode_negara'].item(),
+'\nKode negara :', df_d_min['alpha3_negara'].item(),
+'\nRegion :', df_d_min['region'].item(),
+'\nSub-region :',df_d_min['sub_region'].item(),'\n')
+
+print('Jumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].item(),
+'\nNama lengkap negara :', df_d_minall['kode_negara'].item(),
+'\nKode negara :', df_d_minall['alpha3_negara'].item(),
+'\nRegion :', df_d_minall['region'].item(),
+'\nSub-region :',df_d_minall['sub_region'].item())
+
+print(df_d_minzeroall)
+print(df_d_min_zero)
 ############### lower right column ###############
+right_col.subheader('Summary')
+df_d = df[df['tahun']==tahun]
+df_d_nozero = df_d.drop(df_d.index[df_d['produksi'] == 0])
+df_c_nozero = df_c.drop(df_c.index[df_c['total_produksi'] == 0])
+
+df_d_maxall = df_c_sorted[:1]
+df_d_max = df_d[df_d['produksi']==df_d['produksi'].max()]
+df_d_min = df_d_nozero[df_d_nozero['produksi']==df_d_nozero['produksi'].min()]
+df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_produksi'].min()]
+df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0])
+df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
+
+st.markdown('Jumlah produksi terbesar pada tahun',  tahun,':', df_d_max['produksi'].item(),
+'\nNama lengkap negara :', df_d_max['kode_negara'].item(),
+'\nKode negara :', df_d_max['alpha3_negara'].item(),
+'\nRegion :', df_d_max['region'].item(),
+'\nSub-region :',df_d_max['sub_region'].item(),
+'\nJumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].item(),
+'\nNama lengkap negara :', df_d_maxall['kode_negara'].item(),
+'\nKode negara :', df_d_maxall['alpha3_negara'].item(),
+'\nRegion :', df_d_maxall['region'].item(),
+'\nSub-region :',df_d_maxall['sub_region'].item(),
+'\nJumlah produksi terkecil pada tahun',  tahun ,':', df_d_min['produksi'].item(),
+'\nNama lengkap negara :', df_d_min['kode_negara'].item(),
+'\nKode negara :', df_d_min['alpha3_negara'].item(),
+'\nRegion :', df_d_min['region'].item(),
+'\nSub-region :',df_d_min['sub_region'].item(),'\nJumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].item(),
+'\nNama lengkap negara :', df_d_minall['kode_negara'].item(),
+'\nKode negara :', df_d_minall['alpha3_negara'].item(),
+'\nRegion :', df_d_minall['region'].item(),
+'\nSub-region :',df_d_minall['sub_region'].item())
+st.dataframe(df_d_minzeroall)
+st.dataframe(df_d_min_zero)
+############### lower right column ###############
+
+
+############### container ###############
 # Tambahan :
 with st.container() :
-    st.subheader("Gambaran Produksi Minyak Dunia tiap Tahunnya")
     df_old = pd.read_csv(filepath)
     df_new = pd.read_csv(filepath)
     df_new.loc[:, 'kode_negara'] = df_new['kode_negara'].map(konversi)
@@ -149,4 +222,4 @@ with st.container() :
     fig.show()
 
     st.plotly_chart(fig)
-############### lower right column ###############
+############### container ###############
