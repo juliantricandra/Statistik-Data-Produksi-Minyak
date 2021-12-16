@@ -6,6 +6,7 @@
 Aplikasi Streamlit untuk menggambarkan statistik data produksi minyak tiap negara
 """
 ########### Requirement ###########
+from math import exp
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -92,16 +93,16 @@ n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, 
 
 ############### upper left column ###############
 
-left_col.subheader("Tabel representasi data")
-left_col.dataframe(df.head(n_tampil))
+df_old = pd.read_csv(filepath)
+st.subheader("Tabel Representasi Data")
+st.dataframe(df_old.head(n_tampil))
 
 ############### upper left column ###############
 
 ############### upper middle column ###############
 # Bagian a.
 with st.container() :
-    st.subheader("**Jumlah Produksi Minyak Setiap Negara per Tahun**")
-    df_old = pd.read_csv(filepath)
+    st.subheader("**_Data Visualization_**")
     df_new = pd.read_csv(filepath)
     df_new.loc[:, 'kode_negara'] = df_new['kode_negara'].map(konversi)
     df_new = df.rename(columns={'kode_negara': 'nama_negara'})
@@ -123,65 +124,57 @@ with st.container() :
     ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
     ax.set_xlabel("Tahun", fontsize=12)
     ax.set_ylabel("Jumlah produksi Minyak", fontsize=12)
-    with st.expander("Grafik Jumlah Produksi Minyak {} Tahun {} (fitur wajib)".format(negara,tahun),expanded=False) :
+    with st.expander("Grafik jumlah produksi Minyak {} per Tahun (a)".format(negara),expanded=False) :
         st.pyplot(fig)
         st.dataframe(datanegara)
-############### upper middle column ###############
+    
+    # Bagian b. 
+    df_b = df[df['tahun']==tahun]
+    df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
+    df_b_sorted.index = df_b_sorted.index + 1
 
-############### upper right column ###############
-# Bagian b. 
-right_col.subheader('Jumlah produksi pada suatu tahun')
-df_b = df[df['tahun']==tahun]
-df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
-df_b_sorted.index = df_b_sorted.index + 1
+    cmap_name = 'tab20c'
+    cmap = cm.get_cmap(cmap_name)
+    colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
 
-cmap_name = 'tab20c'
-cmap = cm.get_cmap(cmap_name)
-colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
+    fig, ax = plt.subplots()
+    ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
+    ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
+    ax.set_xlabel("Negara", fontsize=12)
+    ax.set_ylabel("Jumlah produksi", fontsize=12)
+    with st.expander('Jumlah produksi minyak {} pada tahun {}'.format(negara,tahun),expanded=False) :
+        st.pyplot(fig)
+        st.dataframe(df_b_sorted)
 
-fig, ax = plt.subplots()
-ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
-ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
-ax.set_xlabel("Negara", fontsize=12)
-ax.set_ylabel("Jumlah produksi", fontsize=12)
+    #Bagian c.
+    df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
+    df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
 
-right_col.pyplot(fig)
-############### upper right column ###############
+    colors = cmap.colors[:len(df_c_sorted['kode_negara'])]
 
-############### lower left column ###############
-#Bagian c.
-left_col.subheader('Jumlah keseluruhan produksi')
+    fig, ax = plt.subplots()
+    ax.bar(df_c_sorted['kode_negara'],df_c_sorted['total_produksi'] , color=colors)
+    ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
+    ax.set_xlabel("Negara", fontsize=12)
+    ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
+    with st.expander("Grafik jumlah keseluruhan produksi minyak negara {}".format(negara),expanded=False) :
+        st.pyplot(fig)
+        st.dataframe(df_c_sorted)
+    
+    # Tambahan : Rata - rata produksi per tahun
+    df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
+    df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
 
-df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
-df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
+    colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
 
-colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
+    fig, ax = plt.subplots()
+    ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
+    ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
+    ax.set_ylabel("Negara", fontsize=12)
+    with st.expander() :
+        st.pyplot(fig)
+        st.dataframe(df_e_sorted)
 
-fig, ax = plt.subplots()
-ax.bar(df_c_sorted['kode_negara'],df_c_sorted['total_produksi'] , color=colors)
-ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
-ax.set_xlabel("Negara", fontsize=12)
-ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
-
-left_col.pyplot(fig)
-############### lower left column ###############
-
-############### lower middle column ###############
-# Tambahan : Rata - rata produksi per tahun
-mid_col.subheader('Rata - Rata Produksi per Tahun')
-df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
-df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
-
-colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
-
-fig, ax = plt.subplots()
-ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
-ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
-ax.set_ylabel("Negara", fontsize=12)
-mid_col.pyplot(fig)
-############### lower middle column ###############
-
-############### lower right column ###############
 # Bagian d.
 df_d = df[df['tahun']==tahun]
 df_d_nozero = df_d.drop(df_d.index[df_d['produksi'] == 0])
@@ -228,8 +221,6 @@ with st.container() :
     '  \n Sub-region :',df_d_minall['sub_region'].iloc[0])
     with st.expander("Data jumlah produksi sama dengan nol pada keseluruhan tahun", expanded=False) :
         st.dataframe(df_d_minzeroall_new)
-############### lower right column ###############
-
 
 ############### container ###############
 
