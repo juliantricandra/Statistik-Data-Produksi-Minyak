@@ -140,25 +140,20 @@ with st.container() :
     #Bagian c.
     df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
     df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
-    
-    cmap_name = 'tab20'
-    cmap = cm.get_cmap(cmap_name)
-    colors = cmap.colors[:len(df_c_sorted['kode_negara'])]
-
-    fig, ax = plt.subplots()
-    ax.bar(df_c_sorted['kode_negara'],df_c_sorted['total_produksi'] , color=colors)
-    ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
-    ax.set_xlabel("Negara", fontsize=12)
-    ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
+    df_barvchart = alt.Chart(df_c_sorted).mark_bar().encode(tooltip=['produksi','tahun','region','sub_region','alpha3_negara'],
+    x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='total_produksi', order='descending',op='sum')),
+    y=alt.Y('total_produksi', axis=alt.Axis(title='Negara')))
     with st.expander("Grafik jumlah keseluruhan produksi minyak {}-besar (c)".format(n_tampil),expanded=False) :
-        st.pyplot(fig)
+        st.altair_chart(df_barvchart,use_container_width=True)
         st.dataframe(df_c_sorted)
     
     # Tambahan : Rata - rata produksi per tahun
     df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
     df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
 
-    colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
+    cmap_name = 'tab20'
+    cmap = cm.get_cmap(cmap_name)
+    colors = cmap.colors[:len(df_e_sorted)]
 
     fig, ax = plt.subplots()
     ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
