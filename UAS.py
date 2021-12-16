@@ -117,6 +117,7 @@ with st.container() :
         st.plotly_chart(fig)
 
     datanegara = df[df['kode_negara']==negara]
+    df_linechart = pd.DataFrame({datanegara['tahun'],datanegara['produksi']})
     #fig, ax = plt.subplots()
     #ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
     #ax.set_xlabel("Tahun", fontsize=12)
