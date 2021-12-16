@@ -121,7 +121,8 @@ with st.container() :
     ax.set_xlabel("Tahun", fontsize=12)
     ax.set_ylabel("Jumlah produksi minyak", fontsize=12)
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        st.pyplot(fig)
+        #st.pyplot(fig)
+        st.line_chart(datanegara['produksi'])
         st.dataframe(datanegara)
     
     # Bagian b. 
