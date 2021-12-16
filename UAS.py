@@ -101,7 +101,6 @@ left_col.dataframe(df.head(n_tampil))
 # Bagian a.
 with st.container() :
     st.subheader("**Jumlah Produksi Minyak Setiap Negara per Tahun**")
-    st.markdown("Gambaran Jumlah Produksi Minyak Dunia Per Tahun")
     df_old = pd.read_csv(filepath)
     df_new = pd.read_csv(filepath)
     df_new.loc[:, 'kode_negara'] = df_new['kode_negara'].map(konversi)
@@ -121,11 +120,12 @@ with st.container() :
 
     datanegara = df[df['kode_negara']==negara]
     fig, ax = plt.subplots()
-    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, markersize=12)
+    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
     ax.set_xlabel("Tahun", fontsize=12)
-    ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
-    with st.expander("Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun)",expanded=False) :
+    ax.set_ylabel("Jumlah produksi Minyak", fontsize=12)
+    with st.expander("Grafik Jumlah Produksi Minyak {} Tahun {} (fitur wajib)".format(negara,tahun),expanded=False) :
         st.pyplot(fig)
+        st.dataframe(datanegara)
 ############### upper middle column ###############
 
 ############### upper right column ###############
@@ -214,7 +214,6 @@ with st.container() :
     '  \n Kode negara :', df_d_min['alpha3_negara'].iloc[0],
     '  \n Region :', df_d_min['region'].iloc[0],
     '  \n Sub-region :',df_d_min['sub_region'].iloc[0])
-    st.write("Data jumlah produksi sama dengan nol pada tahun", tahun)
     with st.expander("Data jumlah produksi sama dengan nol pada tahun {}".format(tahun), expanded=False) :
         st.dataframe(df_d_min_zero_new)
     st.markdown('  \n **Summary Jumlah Produksi pada Keseluruhan Tahun**')
