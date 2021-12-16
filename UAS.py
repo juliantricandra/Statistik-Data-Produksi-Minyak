@@ -121,7 +121,7 @@ with st.container() :
 
     datanegara = df[df['kode_negara']==negara]
     fig, ax = plt.subplots()
-    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, markersize=12,colors='yellow')
+    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, markersize=12)
     ax.set_xlabel("Tahun", fontsize=12)
     ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
     with st.expander("Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun)",expanded=False) :
