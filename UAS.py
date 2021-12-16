@@ -116,7 +116,7 @@ with st.container() :
         hover_name='nama_negara',
         animation_frame='tahun')
     fig.show()
-    with st.expander("Gambaran Jumlah Produksi Minyak Dunia Per Tahun",expanded=False)
+    with st.expander("Gambaran Jumlah Produksi Minyak Dunia Per Tahun",expanded=False) :
         st.plotly_chart(fig)
 
     datanegara = df[df['kode_negara']==negara]
@@ -124,7 +124,7 @@ with st.container() :
     ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, markersize=12,colors='yellow')
     ax.set_xlabel("Tahun", fontsize=12)
     ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
-    with st.expander("Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun)",expanded=False)
+    with st.expander("Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun)",expanded=False) :
         st.pyplot(fig)
 ############### upper middle column ###############
 
