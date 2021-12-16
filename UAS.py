@@ -185,12 +185,7 @@ with st.container() :
     '\nNama lengkap negara :', df_d_min['kode_negara'].iloc[0],
     '\nKode negara :', df_d_min['alpha3_negara'].iloc[0],
     '\nRegion :', df_d_min['region'].iloc[0],
-    '\nSub-region :',df_d_min['sub_region'].iloc[0],'\nJumlah produksi pada keseluruhan tahun terkecil :', df_d_minall['total_produksi'].iloc[0],
-    '\nNama lengkap negara :', df_d_minall['kode_negara'].iloc[0],
-    '\nKode negara :', df_d_minall['alpha3_negara'].iloc[0],
-    '\nRegion :', df_d_minall['region'].iloc[0],
-    '\nSub-region :',df_d_minall['sub_region'].iloc[0])
-    st.dataframe(df_d_minzeroall)
+    '\nSub-region :',df_d_min['sub_region'].iloc[0])
     st.dataframe(df_d_min_zero)
 ############### lower right column ###############
 
