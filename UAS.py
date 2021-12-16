@@ -151,11 +151,11 @@ with st.container() :
     df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
     df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
 
-    df_areachart = alt.Chart(df_e_sorted).mark_bar().encode(tooltip=['mean','region','sub_region','alpha3_negara'],
+    df_areachart = alt.Chart(df_e_sorted).mark_area().encode(tooltip=['mean','region','sub_region','alpha3_negara'],
     x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='mean', order='descending',op='sum')),
     y=alt.Y('mean', axis=alt.Axis(title='Rata - Rata Produksi')))
     with st.expander("Grafik rata - rata produksi minyak {}-besar negara per tahun ".format(n_tampil),expanded=False) :
-        st.altair_chart(df_areachart)
+        st.altair_chart(df_areachart,use_container_width=True)
         st.dataframe(df_e_sorted)
 
 # Bagian d.
