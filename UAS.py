@@ -130,7 +130,9 @@ with st.container() :
     df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
     df_b_sorted.index = df_b_sorted.index + 1
 
-    df_barchart = alt.Chart(df_b_sorted).mark_bar().encode(x='kode_negara',y='produksi',tooltip=['produksi','tahun'])
+    df_barchart = alt.Chart(datanegara).mark_bar().encode(tooltip=['produksi','tahun','region','sub_region','alpha3_negara'],
+    x=alt.X('produksi', axis=alt.Axis(title='Jumlah Produksi')),
+    y=alt.Y('kode_negara', axis=alt.Axis(title='Negara')))
     with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
         st.altair_chart(df_barchart)
         st.dataframe(df_b_sorted)
