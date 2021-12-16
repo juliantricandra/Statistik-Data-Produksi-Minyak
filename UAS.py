@@ -93,7 +93,7 @@ n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, 
 ############ tampilan data ############
 df_old = pd.read_csv(filepath)
 st.subheader("Tabel representasi data")
-st.dataframe(df_old)
+st.dataframe(df_old.head(n_tampil))
 ############ tampilan data ############
 
 # Bagian a.
