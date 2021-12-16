@@ -167,7 +167,7 @@ with st.container() :
     ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
     ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
     ax.set_ylabel("Negara", fontsize=12)
-    with st.expander("Grafik rata - rata produksi minyak negara setiap tahun {}-besar".format(negara),expanded=False) :
+    with st.expander("Grafik rata - rata produksi minyak negara setiap tahun {}-besar".format(n_tampil),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_e_sorted)
 
