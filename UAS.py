@@ -168,12 +168,17 @@ df_d = df[df['tahun']==tahun]
 df_d_nozero = df_d.drop(df_d.index[df_d['produksi'] == 0])
 df_c_nozero = df_c.drop(df_c.index[df_c['total_produksi'] == 0])
 
+# Dataframe - dataframe yang dibutuhkan
 df_d_maxall = df_c_sorted[:1]
 df_d_max = df_d[df_d['produksi']==df_d['produksi'].max()]
 df_d_min = df_d_nozero[df_d_nozero['produksi']==df_d_nozero['produksi'].min()]
 df_d_minall = df_c_nozero[df_c_nozero['total_produksi']==df_c_nozero['total_produksi'].min()]
 df_d_minzeroall = df_c.drop(df_c.index[df_c['total_produksi'] != 0]).reset_index(drop=True)
 df_d_min_zero = df_d[df_d['produksi']==df_d['produksi'].min()].reset_index(drop=True)
+
+# Rename column
+df_d_minzeroall_new = df_d_minzeroall.rename(columns={"kode_negara" : "nama_negara"})
+df_d_min_zero_new =  df_d_min_zero.rename(columns={"kode_negara" : "nama_negara"})
 
 with st.container() :
     st.subheader("**_Summary_**")
@@ -190,7 +195,7 @@ with st.container() :
     '  \n Sub-region :',df_d_min['sub_region'].iloc[0])
     st.write("Data jumlah produksi sama dengan nol pada tahun", tahun)
     with st.expander("Data jumlah produksi sama dengan nol pada tahun {}".format(tahun), expanded=False) :
-        st.dataframe(df_d_min_zero)
+        st.dataframe(df_d_min_zero_new)
     st.markdown('  \n **Summary Jumlah Produksi pada Keseluruhan Tahun**')
     st.write('Jumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_maxall['kode_negara'].iloc[0],
@@ -202,7 +207,7 @@ with st.container() :
     '  \n Region :', df_d_minall['region'].iloc[0],
     '  \n Sub-region :',df_d_minall['sub_region'].iloc[0])
     with st.expander("Data jumlah produksi sama dengan nol pada keseluruhan tahun", expanded=False) :
-        st.dataframe(df_d_minzeroall)
+        st.dataframe(df_d_minzeroall_new)
 ############### lower right column ###############
 
 
