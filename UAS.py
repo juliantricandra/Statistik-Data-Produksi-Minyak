@@ -10,7 +10,7 @@ from math import exp
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import cm, use
+from matplotlib import cm
 import streamlit as st
 from PIL import Image
 import json
@@ -118,10 +118,12 @@ with st.container() :
         st.plotly_chart(fig,use_container_width=True)
 
     datanegara = df[df['kode_negara']==negara]
-    df_linechart = pd.DataFrame({'tahun' :[x for x in datanegara['tahun']],'produksi' : [x for x in datanegara['produksi']]})
+    df_linechart = alt.Chart(datanegara).mark_line().encode(
+    x='tahun',
+    y='produksi',
+    tooltip='produksi')
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        st.line_chart(df_linechart.rename(columns={'tahun':'index'}).set_index('index'))
-        st.write("Keterangan =  \nx : tahun  \ny : produksi ")
+        st.altair_chart(df_linechart)
         st.dataframe(datanegara)
     
     # Bagian b. 
@@ -134,9 +136,12 @@ with st.container() :
     colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
 
     fig, ax = plt.subplots()
-    df_barchart = pd.DataFrame({'tahun' :[x for x in df_b_sorted['tahun']],'produksi' : [x for x in df_b_sorted['produksi']]})
+    ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
+    ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
+    ax.set_xlabel("Negara", fontsize=12)
+    ax.set_ylabel("Jumlah produksi", fontsize=12)
     with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
-        st.bar_chart(df_barchart,use_container_width=True)
+        st.pyplot(fig)
         st.dataframe(df_b_sorted)
 
     #Bagian c.
