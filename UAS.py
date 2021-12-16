@@ -113,7 +113,7 @@ mid_col.pyplot(fig)
 # Bagian b. 
 right_col.subheader('Jumlah produksi pada suatu tahun')
 df_b = df[df['tahun']==tahun]
-df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
+df_b_sorted = df_b.sort_values(['kode_negara','region','sub_region','alpha3_negara'], ascending=False).reset_index(drop=True)[:n_tampil]
 df_b_sorted.index = df_b_sorted.index + 1
 
 cmap_name = 'tab20c'
@@ -133,7 +133,7 @@ right_col.pyplot(fig)
 #Bagian c.
 left_col.subheader('Jumlah keseluruhan produksi')
 
-df_c = df.groupby(by=['kode_negara'])['produksi'].sum().reset_index(name="total_produksi")
+df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
 df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
 
 colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
@@ -150,7 +150,7 @@ left_col.pyplot(fig)
 ############### lower middle column ###############
 # Tambahan : Rata - rata produksi per tahun
 mid_col.subheader('Rata - Rata Produksi per Tahun')
-df_e = df.groupby(by=['kode_negara'])['produksi'].mean().reset_index(name="mean")
+df_e = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].mean().reset_index(name="mean")
 df_e_sorted = df_e.sort_values(by=['mean'],ascending=False).reset_index(drop=True)[:n_tampil]
 
 colors = cmap.colors[:len(df_e_sorted['kode_negara'])]
