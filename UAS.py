@@ -10,7 +10,7 @@ from math import exp
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import cm
+from matplotlib import cm, use
 import streamlit as st
 from PIL import Image
 import json
@@ -134,12 +134,9 @@ with st.container() :
     colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
 
     fig, ax = plt.subplots()
-    ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
-    ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
-    ax.set_xlabel("Negara", fontsize=12)
-    ax.set_ylabel("Jumlah produksi", fontsize=12)
+    df_barchart = pd.DataFrame({'tahun' :[x for x in df_b_sorted['tahun']],'produksi' : [x for x in df_b_sorted['produksi']]})
     with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
-        st.pyplot(fig)
+        st.bar_chart(df_barchart,use_container_width=True)
         st.dataframe(df_b_sorted)
 
     #Bagian c.
