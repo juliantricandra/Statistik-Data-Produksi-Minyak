@@ -118,12 +118,9 @@ with st.container() :
         st.plotly_chart(fig,use_container_width=True)
 
     datanegara = df[df['kode_negara']==negara]
-    df_linechart = alt.Chart(datanegara).mark_line().encode(
-    x='tahun',
-    y='produksi',
-    tooltip='produksi')
+    df_linechart = alt.Chart(datanegara).mark_line().encode(x='tahun',y='produksi',tooltip=['produksi','tahun'],ylabel='Jumlah Produksi', xlabel='Tahun')
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        st.altair_chart(df_linechart)
+        st.altair_chart(df_linechart,use_container_width=True)
         st.dataframe(datanegara)
     
     # Bagian b. 
