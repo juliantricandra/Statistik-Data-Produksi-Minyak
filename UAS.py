@@ -119,8 +119,9 @@ with st.container() :
 
     datanegara = df[df['kode_negara']==negara]
     df_linechart = pd.DataFrame({'tahun' :[x for x in datanegara['tahun']],'produksi' : [x for x in datanegara['produksi']]})
+    chart = alt.Chart(df_linechart).mark_line(interpolate='basis').encode(x='tahun',y='produksi')  
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        alt.Chart(df_linechart).mark_line().encode(x='tahun',y='produksi')  
+        st.altair_chart(chart)
         st.dataframe(datanegara)
     
     # Bagian b. 
