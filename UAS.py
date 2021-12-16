@@ -122,7 +122,7 @@ with st.container() :
     df_linechart = alt.Chart(datanegara).mark_line().encode(tooltip=['produksi','tahun'],
     x=alt.X('tahun', axis=alt.Axis(title='Tahun')),
     y=alt.Y('produksi', axis=alt.Axis(title='Jumlah Produksi')))
-    with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
+    with st.expander("Grafik jumlah produksi minyak {} per tahun".format(negara),expanded=False) :
         st.altair_chart(df_linechart,use_container_width=True)
         st.dataframe(datanegara)
     
@@ -183,7 +183,7 @@ df_d_min_zero_new.index = df_d_min_zero_new.index + 1
 
 ############ container summary ############
 with st.container() :
-    st.subheader("**_Summary_** (d)")
+    st.subheader("**_Summary_**")
     st.markdown("**Summary Jumlah Produksi pada Tahun** {}".format(tahun))
     st.write('Jumlah produksi terbesar pada tahun', tahun,':', df_d_max['produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_max['kode_negara'].iloc[0],
