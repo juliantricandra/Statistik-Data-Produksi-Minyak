@@ -119,8 +119,8 @@ with st.container() :
     fig, ax = plt.subplots()
     ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
     ax.set_xlabel("Tahun", fontsize=12)
-    ax.set_ylabel("Jumlah produksi Minyak", fontsize=12)
-    with st.expander("Grafik jumlah produksi Minyak {} per Tahun (a)".format(negara),expanded=False) :
+    ax.set_ylabel("Jumlah produksi minyak", fontsize=12)
+    with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
         st.pyplot(fig)
         st.dataframe(datanegara)
     
@@ -138,7 +138,7 @@ with st.container() :
     ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
     ax.set_xlabel("Negara", fontsize=12)
     ax.set_ylabel("Jumlah produksi", fontsize=12)
-    with st.expander('Grafik jumlah produksi minyak {} pada tahun {} (b)'.format(negara,tahun),expanded=False) :
+    with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_b_sorted)
 
@@ -153,7 +153,7 @@ with st.container() :
     ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
     ax.set_xlabel("Negara", fontsize=12)
     ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
-    with st.expander("Grafik jumlah keseluruhan produksi minyak negara {} (c)".format(negara),expanded=False) :
+    with st.expander("Grafik jumlah keseluruhan produksi minyak {}-besar (c)".format(n_tampil),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_c_sorted)
     
@@ -167,7 +167,7 @@ with st.container() :
     ax.barh(df_e_sorted['kode_negara'],df_e_sorted['mean'] , color=colors)
     ax.set_xlabel("Rata - Rata Produksi", fontsize=12)
     ax.set_ylabel("Negara", fontsize=12)
-    with st.expander("Grafik rata - rata produksi minyak negara {} tiap tahunnya".format(negara),expanded=False) :
+    with st.expander("Grafik rata - rata produksi minyak negara setiap tahun {}-besar".format(negara),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_e_sorted)
 
