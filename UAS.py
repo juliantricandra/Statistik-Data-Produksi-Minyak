@@ -118,7 +118,9 @@ with st.container() :
         st.plotly_chart(fig,use_container_width=True)
 
     datanegara = df[df['kode_negara']==negara]
-    df_linechart = alt.Chart(datanegara).mark_line().encode(x='tahun',y='produksi',tooltip=['produksi','tahun'])
+    df_linechart = alt.Chart(datanegara).mark_line().encode(x='tahun',y='produksi',tooltip=['produksi','tahun'],
+    x=alt.X('tahun', axis=alt.Axis(title='Tahun')),
+    y=alt.Y('produksi', axis=alt.Axis(title='Jumlah Produksi')))
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
         st.altair_chart(df_linechart,use_container_width=True)
         st.dataframe(datanegara)
@@ -128,23 +130,17 @@ with st.container() :
     df_b_sorted = df_b.sort_values(by=['produksi'], ascending=False).reset_index(drop=True)[:n_tampil]
     df_b_sorted.index = df_b_sorted.index + 1
 
-    cmap_name = 'tab20c'
-    cmap = cm.get_cmap(cmap_name)
-    colors = cmap.colors[:len(df_b_sorted['kode_negara'])]
-
-    fig, ax = plt.subplots()
-    ax.bar(df_b_sorted['kode_negara'],df_b_sorted['produksi'] , color=colors)
-    ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
-    ax.set_xlabel("Negara", fontsize=12)
-    ax.set_ylabel("Jumlah produksi", fontsize=12)
+    df_barchart = alt.Chart(df_b_sorted).mark_bar().encode(x='kode_negara',y='produksi',tooltip=['produksi','tahun'])
     with st.expander('Grafik jumlah produksi minyak {}-besar pada tahun {} (b)'.format(n_tampil,tahun),expanded=False) :
-        st.pyplot(fig)
+        st.altair_chart(df_barchart)
         st.dataframe(df_b_sorted)
 
     #Bagian c.
     df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
     df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
-
+    
+    cmap_name = 'tab20'
+    cmap = cm.get_cmap(cmap_name)
     colors = cmap.colors[:len(df_c_sorted['kode_negara'])]
 
     fig, ax = plt.subplots()
