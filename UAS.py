@@ -100,7 +100,7 @@ left_col.dataframe(df.head(n_tampil))
 ############### upper middle column ###############
 # Bagian a.
 with st.container() :
-    st.subheader("**_Jumlah Produksi Minyak Setiap Negara per Tahun_**")
+    st.subheader("**Jumlah Produksi Minyak Setiap Negara per Tahun**")
     st.markdown("Gambaran Jumlah Produksi Minyak Dunia Per Tahun")
     df_old = pd.read_csv(filepath)
     df_new = pd.read_csv(filepath)
@@ -116,15 +116,16 @@ with st.container() :
         hover_name='nama_negara',
         animation_frame='tahun')
     fig.show()
-    st.plotly_chart(fig)
+    with st.expander("Gambaran Jumlah Produksi Minyak Dunia Per Tahun",expanded=False)
+        st.plotly_chart(fig)
 
-    st.markdown('Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun))
     datanegara = df[df['kode_negara']==negara]
     fig, ax = plt.subplots()
-    ax.plot(datanegara['tahun'], datanegara['produksi'], 'go--', linewidth=2, markersize=12)
+    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, markersize=12,colors='yellow')
     ax.set_xlabel("Tahun", fontsize=12)
     ax.set_ylabel("Jumlah produksi pada tiap tahun", fontsize=12)
-    st.pyplot(fig)
+    with st.expander("Grafik Jumlah Produksi Minyak pada Tahun {}'.format(tahun)",expanded=False)
+        st.pyplot(fig)
 ############### upper middle column ###############
 
 ############### upper right column ###############
