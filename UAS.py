@@ -71,7 +71,7 @@ df['alpha3_negara'] = listalphanegara
 
 ############### title ###############
 st.set_page_config(layout="wide")  # this needs to be the first Streamlit command called
-st.title("Statistik Produksi Minyak di Berbagai Negara")
+st.title("Statistik Produksi Minyak Mentah di Berbagai Negara")
 st.markdown("Nama : Julian Tri Candra Aminudin Hasan  \nNIM : 12220099")
 ############### title ###############)
 
@@ -115,14 +115,14 @@ with st.container() :
         hover_name='nama_negara',
         animation_frame='tahun')
     fig.show()
-    with st.expander("Gambaran jumlah produksi minyak dunia per tahun",expanded=False) :
+    with st.expander("Gambaran jumlah produksi minyak mentah dunia per tahun",expanded=False) :
         st.plotly_chart(fig,use_container_width=True)
 
     datanegara = df[df['kode_negara']==negara]
     df_linechart = alt.Chart(datanegara).mark_line().encode(tooltip=['produksi','tahun'],
     x=alt.X('tahun', axis=alt.Axis(title='Tahun')),
     y=alt.Y('produksi', axis=alt.Axis(title='Jumlah Produksi')))
-    with st.expander("Grafik jumlah produksi minyak {} per tahun".format(negara),expanded=False) :
+    with st.expander("Grafik jumlah produksi minyak mentah {} per tahun".format(negara),expanded=False) :
         st.altair_chart(df_linechart,use_container_width=True)
         st.dataframe(datanegara)
     
@@ -134,7 +134,7 @@ with st.container() :
     df_barchart = alt.Chart(df_b_sorted).mark_bar().encode(tooltip=['produksi','tahun','region','sub_region','alpha3_negara'],
     x=alt.X('produksi', axis=alt.Axis(title='Jumlah Produksi')),
     y=alt.Y('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='produksi', order='descending',op='sum')))
-    with st.expander('Grafik jumlah produksi minyak {}-besar negara pada tahun {}'.format(n_tampil,tahun),expanded=False) :
+    with st.expander('Grafik {}-besar negara dengan jumlah produksi minyak mentah terbesar pada tahun {}'.format(n_tampil,tahun),expanded=False) :
         st.altair_chart(df_barchart,use_container_width=True)
         st.dataframe(df_b_sorted)
 
@@ -144,7 +144,7 @@ with st.container() :
     df_barvchart = alt.Chart(df_c_sorted).mark_bar().encode(tooltip=['total_produksi','region','sub_region','alpha3_negara'],
     x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='total_produksi', order='descending',op='sum')),
     y=alt.Y('total_produksi', axis=alt.Axis(title='Total Produksi')))
-    with st.expander("Grafik jumlah produksi minyak {}-besar negara pada keseluruhan tahun".format(n_tampil),expanded=False) :
+    with st.expander("Grafik {}-besar negara dengan jumlah produksi minyak mentah terbesar pada keseluruhan tahun".format(n_tampil),expanded=False) :
         st.altair_chart(df_barvchart,use_container_width=True)
         st.dataframe(df_c_sorted)
     
@@ -155,7 +155,7 @@ with st.container() :
     df_areachart = alt.Chart(df_e_sorted).mark_area().encode(tooltip=['mean','region','sub_region','alpha3_negara'],
     x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='mean', order='descending',op='sum')),
     y=alt.Y('mean', axis=alt.Axis(title='Rata - Rata Produksi')))
-    with st.expander("Grafik rata - rata produksi minyak {}-besar negara per tahun ".format(n_tampil),expanded=False) :
+    with st.expander("Grafik {}-besar negara dengan rata - rata produksi minyak mentah terbesar per tahun ".format(n_tampil),expanded=False) :
         st.altair_chart(df_areachart,use_container_width=True)
         st.dataframe(df_e_sorted)
 
@@ -184,7 +184,7 @@ df_d_min_zero_new.index = df_d_min_zero_new.index + 1
 ############ container summary ############
 with st.container() :
     st.subheader("**_Summary_**")
-    st.markdown("**Summary Jumlah Produksi pada Tahun** {}".format(tahun))
+    st.markdown("**Summary Jumlah Produksi Mentah pada Tahun** {}".format(tahun))
     st.write('Jumlah produksi terbesar pada tahun', tahun,':', df_d_max['produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_max['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_max['alpha3_negara'].iloc[0],
@@ -197,7 +197,7 @@ with st.container() :
     '  \n Sub-region :',df_d_min['sub_region'].iloc[0])
     with st.expander("Data jumlah produksi sama dengan nol pada tahun {}".format(tahun), expanded=False) :
         st.dataframe(df_d_min_zero_new)
-    st.markdown('  \n **Summary Jumlah Produksi pada Keseluruhan Tahun**')
+    st.markdown('  \n **Summary Jumlah Produksi Minyak Mentah pada Keseluruhan Tahun**')
     st.write('Jumlah produksi pada keseluruhan tahun terbesar :', df_d_maxall['total_produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_maxall['kode_negara'].iloc[0],
     '  \n Kode negara :', df_d_maxall['alpha3_negara'].iloc[0],
