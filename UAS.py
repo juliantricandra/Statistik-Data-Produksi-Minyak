@@ -80,7 +80,6 @@ image = Image.open('oildrop.jpg')
 st.sidebar.image(image)
 
 st.sidebar.title("Pengaturan")
-left_col, mid_col, right_col = st.columns(3)
 
 ## User inputs on the control panel
 st.sidebar.subheader("Pengaturan konfigurasi tampilan")
@@ -142,7 +141,7 @@ with st.container() :
     ax.set_xticklabels(df_b_sorted['kode_negara'], rotation=90)
     ax.set_xlabel("Negara", fontsize=12)
     ax.set_ylabel("Jumlah produksi", fontsize=12)
-    with st.expander('Jumlah produksi minyak {} pada tahun {}'.format(negara,tahun),expanded=False) :
+    with st.expander('Grafik jumlah produksi minyak {} pada tahun {} (b)'.format(negara,tahun),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_b_sorted)
 
@@ -157,7 +156,7 @@ with st.container() :
     ax.set_xticklabels(df_c_sorted['kode_negara'], rotation=90)
     ax.set_xlabel("Negara", fontsize=12)
     ax.set_ylabel("Total Produksi Keseluruhan Tahun", fontsize=12)
-    with st.expander("Grafik jumlah keseluruhan produksi minyak negara {}".format(negara),expanded=False) :
+    with st.expander("Grafik jumlah keseluruhan produksi minyak negara {} (c)".format(negara),expanded=False) :
         st.pyplot(fig)
         st.dataframe(df_c_sorted)
     
@@ -195,7 +194,7 @@ df_d_min_zero_new =  df_d_min_zero.rename(columns={"kode_negara" : "nama_negara"
 df_d_min_zero_new.index = df_d_min_zero_new.index + 1
 
 with st.container() :
-    st.subheader("**_Summary_**")
+    st.subheader("**_Summary_** (d)")
     st.markdown("**Summary Jumlah Produksi pada Tahun** {}".format(tahun))
     st.write('Jumlah produksi terbesar pada tahun', tahun,':', df_d_max['produksi'].iloc[0],
     '  \n Nama lengkap negara :', df_d_max['kode_negara'].iloc[0],
