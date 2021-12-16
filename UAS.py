@@ -72,13 +72,12 @@ df['alpha3_negara'] = listalphanegara
 ############### title ###############
 st.set_page_config(layout="wide")  # this needs to be the first Streamlit command called
 st.title("Statistik Produksi Minyak di Berbagai Negara")
-st.markdown("*Sumber data berasal dari [Jakarta Open Data](https://data.jakarta.go.id/dataset/data-jumlah-penumpang-trans-jakarta-tahun-2019-kpi)*")
+st.markdown("Nama : Julian Tri Candra Aminudin Hasan  \nNIM : 12220099")
 ############### title ###############)
 
 ############### sidebar ###############
 image = Image.open('perminyakan.png')
 st.sidebar.image(image)
-
 st.sidebar.title("Pengaturan")
 
 ## User inputs on the control panel
@@ -91,9 +90,11 @@ n_tampil = st.sidebar.number_input("Jumlah data yang ditampilkan", min_value=1, 
 ############### sidebar ############### 
 
 ############ tampilan data ############
+
 df_old = pd.read_csv(filepath)
 st.subheader("Tabel representasi data")
 st.dataframe(df_old.head(n_tampil))
+
 ############ tampilan data ############
 
 # Bagian a.
@@ -116,12 +117,13 @@ with st.container() :
         st.plotly_chart(fig)
 
     datanegara = df[df['kode_negara']==negara]
-    fig, ax = plt.subplots()
-    ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
-    ax.set_xlabel("Tahun", fontsize=12)
-    ax.set_ylabel("Jumlah produksi minyak", fontsize=12)
+    #fig, ax = plt.subplots()
+    #ax.plot(datanegara['tahun'], datanegara['produksi'], linewidth=2, color='#ad8150')
+    #ax.set_xlabel("Tahun", fontsize=12)
+    #ax.set_ylabel("Jumlah produksi minyak", fontsize=12)
     with st.expander("Grafik jumlah produksi minyak {} per tahun (a)".format(negara),expanded=False) :
-        st.pyplot(fig)
+        #st.pyplot(fig)
+        st.line_chart(datanegara.rename(columns={'tahun':'index'}).set_index('index'))
         st.dataframe(datanegara)
     
     # Bagian b. 
