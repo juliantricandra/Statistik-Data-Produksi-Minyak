@@ -140,9 +140,9 @@ with st.container() :
     #Bagian c.
     df_c = df.groupby(['kode_negara','region','sub_region','alpha3_negara'])['produksi'].sum().reset_index(name="total_produksi")
     df_c_sorted = df_c.sort_values(by=['total_produksi'],ascending=False).reset_index(drop=True)[:n_tampil]
-    df_barvchart = alt.Chart(df_c_sorted).mark_bar().encode(tooltip=['total_produksi','tahun','region','sub_region','alpha3_negara'],
+    df_barvchart = alt.Chart(df_c_sorted).mark_bar().encode(tooltip=['total_produksi','region','sub_region','alpha3_negara'],
     x=alt.X('kode_negara', axis=alt.Axis(title='Negara'),sort=alt.EncodingSortField(field='total_produksi', order='descending',op='sum')),
-    y=alt.Y('total_produksi', axis=alt.Axis(title='Negara')))
+    y=alt.Y('total_produksi', axis=alt.Axis(title='Total Produksi')))
     with st.expander("Grafik jumlah keseluruhan produksi minyak {}-besar (c)".format(n_tampil),expanded=False) :
         st.altair_chart(df_barvchart,use_container_width=True)
         st.dataframe(df_c_sorted)
